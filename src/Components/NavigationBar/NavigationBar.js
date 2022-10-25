@@ -7,12 +7,19 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import React, { useState } from "react";
 import DarkLight from "../DarkLight/DarkLight";
 import Avatar from "../Avatar/Avatar";
+import { Link, NavLink } from "react-router-dom";
 
 function NavigationBar() {
     const [toggle,setToggle] = useState(false);
     const toggleNav = ()=>{
         setToggle(!toggle);
     }
+
+    const activeStyle= {
+      color:'black',
+      fontWeight:'bold'
+    }
+
   return (
     <Navbar bg="light" expand="lg" sticky="top">
       <Container fluid>
@@ -34,10 +41,10 @@ function NavigationBar() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           ></Nav>
-          <Nav>
-            <Nav.Link href="#action1">Courses</Nav.Link>
-            <Nav.Link href="#action2">FAQ</Nav.Link>
-            <Nav.Link href="#action2">Blog</Nav.Link>
+          <Nav className="d-flex align-items-center">
+            <NavLink to="/courses" className="mx-2 text-decoration-none" style={({ isActive }) =>isActive ? activeStyle : {color:'grey'}}>Courses</NavLink>
+            <NavLink to="/faq" className="mx-2 text-decoration-none" style={({ isActive }) =>isActive ? activeStyle : {color:'grey'}}>FAQ</NavLink>
+            <NavLink to="/blog" className="mx-2 text-decoration-none" style={({ isActive }) =>isActive ? activeStyle : {color:'grey'}}>Blog</NavLink>
             <div className="d-none d-lg-flex justify-content-center align-items-center">
               <DarkLight />
               <Avatar></Avatar>

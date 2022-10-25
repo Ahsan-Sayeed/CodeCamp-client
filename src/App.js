@@ -1,14 +1,10 @@
 import './App.css';
-import NavigationBar from './Components/NavigationBar/NavigationBar';
-import Footer from './Components/Footer/Footer';
-import Login from './Pages/Login/Login'
+import { RouterProvider } from 'react-router-dom';
+import Router from './Routes/Router/Router';
+
 function App() {
   return (
-    <div className="App">
-      <NavigationBar></NavigationBar>
-      <Login></Login>
-      <Footer></Footer>
-    </div>
+    <RouterProvider router={Router}/>
   );
 }
 
