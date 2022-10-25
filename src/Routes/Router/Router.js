@@ -7,6 +7,7 @@ import Blog from '../../Pages/Blog/Blog';
 // import Registration from './Pages/Registration/Registration';
 import Courses from '../../Pages/Courses/Courses';
 import FAQ from '../../Pages/FAQ/FAQ';
+import NotFound from '../../Pages/NotFound404/NotFound';
 
 const Router = createBrowserRouter([
     {   
@@ -37,6 +38,7 @@ const Router = createBrowserRouter([
     },
     {
         path:'*',
+        element:<NotFound/>
 
     }
 ]);
