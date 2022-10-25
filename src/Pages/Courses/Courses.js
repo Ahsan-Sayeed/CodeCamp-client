@@ -10,7 +10,7 @@ const Courses = () => {
     const data = useLoaderData();
 
     const [index,handleIndex] = useState(0);
-
+    
     return (
         <Row>
             <Col sm={4} className="border bg-light">

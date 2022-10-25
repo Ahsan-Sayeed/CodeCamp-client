@@ -1,11 +1,16 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/esm/Col";
+import { useNavigate } from "react-router-dom";
 
-const Cards = ({name,photo}) => {
+const Cards = ({name,photo,details}) => {
+  const navigate = useNavigate();
+  const handleClick = () =>{
+    navigate('/details',{state:{name,photo,details}})
+ }
 
   return (
-          <Col>
+          <Col onClick={handleClick}>
             <Card
               border='info'
               bg=""
