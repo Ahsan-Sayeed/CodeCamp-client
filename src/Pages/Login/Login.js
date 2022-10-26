@@ -5,6 +5,7 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Form from "react-bootstrap/Form";
+import {Link} from 'react-router-dom';
 
 function Login() {
 
@@ -83,9 +84,9 @@ function Login() {
 
               <p className="small fw-bold mt-2 pt-1 mb-2">
                 Don't have an account?{" "}
-                <a href="#!" className="link-danger">
+                <Link to="/register" className="link-danger">
                   Register
-                </a>
+                </Link>
               </p>
             </div>
           </Form>

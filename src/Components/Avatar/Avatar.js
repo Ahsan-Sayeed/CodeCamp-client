@@ -9,13 +9,17 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { MdOutlineSecurity } from "react-icons/md";
 import { SiGnuprivacyguard } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
 
 function Avatar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [settings,setSettings] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
+    // setIsLoggedIn(!isLoggedIn);
+    navigate('/login');
   };
   
   const handleSetting = (e) =>{
