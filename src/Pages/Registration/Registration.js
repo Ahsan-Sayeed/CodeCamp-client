@@ -78,7 +78,7 @@ function Registration() {
         <Col xs={"10"} md={"6"}>
           <img
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-            class="img-fluid"
+            className="img-fluid"
             alt="Sample image"
           />
         </Col>

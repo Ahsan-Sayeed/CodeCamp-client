@@ -2,7 +2,8 @@ import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { UserContext } from "../../Context/Context";
 
 // React icons 
 import { IoSettingsOutline } from "react-icons/io5";
@@ -14,14 +15,32 @@ import { useNavigate } from "react-router-dom";
 function Avatar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [settings,setSettings] = useState(false);
-
+  const {userInfo,logOut} = useContext(UserContext);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    if(userInfo?.uid){
+      setIsLoggedIn(true);
+    }
+    else{
+      setIsLoggedIn(false);
+    }
+  },[userInfo]);
+
   const handleLogin = () => {
-    // setIsLoggedIn(!isLoggedIn);
     navigate('/login');
   };
-  
+
+  const handleLogOut = ()=>{
+    logOut()
+    .then(()=>{
+      // console.log('logged out')
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  }
+
   const handleSetting = (e) =>{
     setSettings(!settings);
   }
@@ -84,7 +103,7 @@ function Avatar() {
                 <MdOutlineSecurity />
               </div>
             </button>
-            <button className="d-flex align-items-center border-0 bg-transparent">
+            <button className="d-flex align-items-center border-0 bg-transparent" onClick={handleLogOut}>
               <small className="me-2">LogOut</small>
               <div className="border rounded-circle p-2 d-flex align-items-center justify-content-center">
                 <RiLogoutCircleLine />

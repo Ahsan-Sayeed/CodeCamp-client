@@ -1,16 +1,42 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { BsGoogle, BsGithub } from "react-icons/bs";
 import Button from "react-bootstrap/esm/Button";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Form from "react-bootstrap/Form";
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import { UserContext } from "../../Context/Context";
 
 function Login() {
+  const [error,setError] = useState('');
+  const {loginByEmailAndPassword} = useContext(UserContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const To = location?.state?.from||'/';
 
     const handleSubmit = (e)=>{
         e.preventDefault();
+        const form = e.target;
+        loginByEmailAndPassword(form.email.value,form.password.value)
+        .then(({user})=>{
+          if(user.emailVerified){
+            navigate(To,{replace:true});
+          }
+          else{
+            alert('Please verify your email address');
+          }
+        })
+        .catch(err=>{
+          if(err.message === 'Firebase: Error (auth/user-not-found).'){
+            setError("User not found");
+          }
+          else if(err.message === 'Firebase: Error (auth/wrong-password).'){
+            setError('Wrong password');
+          }else{
+            setError("Something went wrong");
+          }
+        })
     }
 
   return (
@@ -19,7 +45,7 @@ function Login() {
         <Col xs={"10"} md={"6"}>
           <img
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-            class="img-fluid"
+            className="img-fluid"
             alt="Sample image"
           />
         </Col>
@@ -55,14 +81,14 @@ function Login() {
 
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="email" placeholder="Enter email" required />
+              <Form.Control type="email" placeholder="Enter email" name="email" required />
               <Form.Text className="text-muted d-flex">
                 We'll never share your email with anyone else.
               </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control type="password" placeholder="Password" name="password" required/>
               <Form.Text className="text-muted d-flex">
                 Wrong password
               </Form.Text>
@@ -80,7 +106,7 @@ function Login() {
             </div>
 
             <div className="text-center text-md-start mt-4 pt-2">
-              <Button type="submit">Submit</Button>
+              <Button type="submit">Login</Button>
 
               <p className="small fw-bold mt-2 pt-1 mb-2">
                 Don't have an account?{" "}

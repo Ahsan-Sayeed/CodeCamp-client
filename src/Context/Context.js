@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import {createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, updateProfile} from 'firebase/auth';
+import {createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile} from 'firebase/auth';
 import app from '../Firebase/Firebase.cofig';
 
 export const UserContext = createContext();
@@ -8,18 +8,17 @@ const auth = getAuth(app);
 
 const Context = ({children}) => {
     const [userInfo,setUserInfo] = useState(null);
-    const [isLoading,setIsLoading] = useState(true);
+    const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth,(user)=>{
             if(user&&user.uid){
-                console.log(user)
                 setUserInfo(user);
-                setIsLoading(false);
+                setLoading(false);
             }
             else{
                 setUserInfo(null);
-                setIsLoading(false);
+                setLoading(false);
             }
         })
         return ()=>{
@@ -27,15 +26,24 @@ const Context = ({children}) => {
         }
     },[])
 
+
     const signUp = (email,password) =>createUserWithEmailAndPassword(auth,email,password);
 
     const getPhotoAndName = (obj) => updateProfile(auth.currentUser,obj);
 
     const verify = () => sendEmailVerification(auth.currentUser);
 
+    const loginByEmailAndPassword = (email,password) => {
+        setLoading(true);
+        return signInWithEmailAndPassword(auth,email,password);
+    }
 
+    const logOut = () => {
+        setLoading(false);
+        return signOut(auth);
+    }
 
-    const User = {userInfo,isLoading,signUp,getPhotoAndName,verify};
+    const User = {userInfo,loading,signUp,getPhotoAndName,verify,loginByEmailAndPassword,logOut};
     return (
         <UserContext.Provider value={User}>
             {children}

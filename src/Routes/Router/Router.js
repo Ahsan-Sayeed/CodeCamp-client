@@ -10,6 +10,8 @@ import FAQ from '../../Pages/FAQ/FAQ';
 import NotFound from '../../Pages/NotFound404/NotFound';
 import CourseDetails from '../../Pages/CourseDetails/CourseDetails';
 import Checkout from '../../Pages/Checkout/Checkout';
+import Home from '../../Pages/Home/Home';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const Router = createBrowserRouter([
     {   
@@ -17,6 +19,10 @@ const Router = createBrowserRouter([
         element: <Main></Main>,
         children: 
         [
+            {
+                path:'/',
+                element:<Home/>
+            },
             {
                 path:'/courses',
                 element:<Courses/>,
@@ -36,7 +42,7 @@ const Router = createBrowserRouter([
             },
             {
                 path:'/login',
-                element:<Login/>
+                element: <Login/>
             },
             {
                 path:'/register',
@@ -44,7 +50,7 @@ const Router = createBrowserRouter([
             },
             {
                 path:"/checkout/:id",
-                element: <Checkout/>
+                element: <PrivateRoute><Checkout/></PrivateRoute>
             }
         ]
     },
