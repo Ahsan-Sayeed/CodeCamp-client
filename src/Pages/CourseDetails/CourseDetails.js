@@ -12,9 +12,8 @@ const CourseDetails = () => {
   const { name, photo, details } = location.state;
   const navigate = useNavigate();
 
-
-  const handleCheckOut = () =>{
-    navigate('/checkout/1');
+  const handleCheckOut = (id) =>{
+    navigate(`/checkout/${id}`,{replace:true});
   }
 
   if (location.state === null) {
@@ -101,7 +100,7 @@ const CourseDetails = () => {
               </div>
             </div>
             <div className="d-flex align-items-center justify-content-center">
-              <Button className="my-5 w-100 py-3" onClick={handleCheckOut}>
+              <Button className="my-5 w-100 py-3" onClick={()=>handleCheckOut(details[7]._id)}>
                 <GiQueenCrown /> Get premium access
               </Button>
             </div>
