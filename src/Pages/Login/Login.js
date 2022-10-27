@@ -10,7 +10,7 @@ import { UserContext } from "../../Context/Context";
 
 function Login() {
   const [error,setError] = useState('');
-  const {loginByEmailAndPassword} = useContext(UserContext);
+  const {loginByEmailAndPassword,loginWithGoogle,loginWithGithub} = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
   const To = location?.state?.from||'/';
@@ -39,6 +39,30 @@ function Login() {
         })
     }
 
+    const handleGoogleLogin = () =>{
+      loginWithGoogle()
+      .then(({user})=>{
+        if(user&&user.uid){
+          navigate(To,{replace:true});
+        }
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+    }
+
+    const handleGitHubLogin = () =>{
+      loginWithGithub()
+      .then(({user})=>{
+        if(user&&user.uid){
+          navigate(To,{replace:true});
+        }
+      })
+      .catch(err=>{
+        console.log(err.message);
+      })
+    }
+
   return (
     <Container fluid className="p-3 my-5">
       <Row>
@@ -57,6 +81,7 @@ function Login() {
             <Button
               className="rounded-circle d-flex align-items-center justify-content-center"
               style={{ height: "40px", width: "40px" }}
+              onClick={handleGoogleLogin}
             >
               <BsGoogle size={"14px"} />
             </Button>
@@ -64,6 +89,7 @@ function Login() {
             <Button
               className="rounded-circle d-flex align-items-center justify-content-center mx-2"
               style={{ height: "40px", width: "40px" }}
+              onClick={handleGitHubLogin}
             >
               <BsGithub size={"14px"} />
             </Button>

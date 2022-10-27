@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import {createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile} from 'firebase/auth';
+import {createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile} from 'firebase/auth';
 import app from '../Firebase/Firebase.cofig';
 
 export const UserContext = createContext();
@@ -9,6 +9,8 @@ const auth = getAuth(app);
 const Context = ({children}) => {
     const [userInfo,setUserInfo] = useState(null);
     const [loading,setLoading] = useState(true);
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth,(user)=>{
@@ -38,12 +40,22 @@ const Context = ({children}) => {
         return signInWithEmailAndPassword(auth,email,password);
     }
 
+    const loginWithGoogle = () =>{
+        setLoading(true);
+        return signInWithPopup(auth,googleProvider);
+    }
+
+    const loginWithGithub = () =>{
+        setLoading(true);
+        return signInWithPopup(auth,githubProvider);
+    }
+
     const logOut = () => {
         setLoading(false);
         return signOut(auth);
     }
 
-    const User = {userInfo,loading,signUp,getPhotoAndName,verify,loginByEmailAndPassword,logOut};
+    const User = {userInfo,loading,signUp,getPhotoAndName,verify,loginByEmailAndPassword,loginWithGoogle,loginWithGithub,logOut};
     return (
         <UserContext.Provider value={User}>
             {children}
