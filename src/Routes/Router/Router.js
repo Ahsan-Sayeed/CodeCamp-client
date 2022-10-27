@@ -26,7 +26,7 @@ const Router = createBrowserRouter([
             {
                 path:'/courses',
                 element:<Courses/>,
-                loader:()=>fetch('http://localhost:5000/')
+                loader:()=>fetch('https://codecamp-ashen.vercel.app/')
             },
             {
                 path:'/faq',
@@ -51,7 +51,7 @@ const Router = createBrowserRouter([
             {
                 path:"/checkout/:id",
                 element: <PrivateRoute><Checkout/></PrivateRoute>,
-                loader:({params})=> fetch(`http://localhost:5000/plans/${params.id}`)
+                loader:({params})=> fetch(`https://codecamp-ashen.vercel.app/plans/${params.id}`)
             }
         ]
     },

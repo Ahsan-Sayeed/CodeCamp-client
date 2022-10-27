@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 
 const Main = () => {
     return (
-        <div>
+        <div style={{overflow:'hidden'}}>
             <NavigationBar />
             <Outlet/>
             <Footer/>

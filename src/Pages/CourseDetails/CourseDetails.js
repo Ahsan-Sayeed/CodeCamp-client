@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -7,8 +7,11 @@ import { BsDownload } from "react-icons/bs";
 import { GiQueenCrown } from "react-icons/gi";
 import Button from "react-bootstrap/esm/Button";
 
+import Pdf from "react-to-pdf";
+
 const CourseDetails = () => {
   const location = useLocation();
+  const ref = useRef();
   const { name, photo, details } = location.state;
   const navigate = useNavigate();
 
@@ -16,11 +19,21 @@ const CourseDetails = () => {
     navigate(`/checkout/${id}`,{replace:true});
   }
 
+  const options = {
+    orientation: 'landscape',
+    unit: 'in',
+    format: [8,8]
+};
+
+  const handleDownload = () =>{
+    console.log(ref.current);
+  }
+
   if (location.state === null) {
     return <Navigate to="/courses" />;
   } else {
     return (
-      <div style={{overflow:'hidden'}}>
+      <div style={{overflow:'hidden'}} >
         <Row>
           <Col xs="2" className="mx-5 my-5">
             <h5 style={{wordWrap:'nowrap'}}>On this page</h5>
@@ -36,7 +49,7 @@ const CourseDetails = () => {
               <a>{details[6].title}</a>
             </div>
           </Col>
-          <Col>
+          <Col ref={ref}>
                 <Container>
             <Row className="border-bottom p-3 mb-5 mt-3">
               <Col xs="11" id="intro">
@@ -44,13 +57,13 @@ const CourseDetails = () => {
                 <p>{details[0].Introduce}</p>
               </Col>
               <Col className="d-flex align-items-center justify-content-center">
-                <button className="border-0 bg-transparent">
-                  <BsDownload size="20px" />
-                </button>
+                <Pdf targetRef={ref} filename="example.pdf" options={options} x={0.8} y={0.2} scale={0.5}>
+                {({ toPdf }) =><button className="border-0 bg-transparent" onClick={toPdf}><BsDownload size="20px" /></button>}
+                </Pdf>
               </Col>
             </Row>
             <div className="d-flex justify-content-center align-items-center p-5">
-              <img src={photo} />
+              <img src={photo} style={{height:"256px",widht:'256px'}}/>
             </div>
             <div>
               <p>{details[1].shortDetails}</p>
